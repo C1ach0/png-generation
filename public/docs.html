@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Image Generator Using Vue</title>
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Image Generator Using Vue" />
+    <meta name="description" content="Generate beautiful images from Vue.js HTML templates instantly." />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://vue-png.vercel.app/" />
+    <meta property="og:title" content="Image Generator Using Vue" />
+    <meta property="og:description" content="Generate beautiful images from Vue.js HTML templates instantly." />
+    <meta property="og:image" content="https://vue-png.vercel.app/assets/example.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://vue-png.vercel.app/" />
+    <meta property="twitter:title" content="Image Generator Using Vue" />
+    <meta property="twitter:description" content="Generate beautiful images from Vue.js HTML templates instantly." />
+    <meta property="twitter:image" content="https://vue-png.vercel.app/assets/example.png" />
+
+    <link rel="icon" href="/logo.svg">
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <Layout>
+            <header class="max-w-screen-lg mx-auto px-4 py-20 text-center">
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
+                    Easily Create Beautiful Images Using <span class="text-green-600">Vue.js</span>
+                </h1>
+                <p class="text-lg text-gray-600 mb-12">
+                    Generate stunning images from your HTML templates in seconds — perfect for social cards, previews,
+                    and more!
+                </p>
+            </header>
+
+            <section class="max-w-screen-lg mx-auto px-6 py-10 bg-white rounded-xl shadow-lg mb-12">
+                <h2 class="text-3xl font-bold mb-6 text-gray-900">Getting Started</h2>
+                <p class="mb-4 text-gray-700">
+                    This project lets you create PNG or JPEG images from Vue.js templates. You can send your Vue
+                    template code, styles, and data, and get back a beautifully rendered image.
+                </p>
+                <pre class="bg-gray-100 p-4 rounded text-sm overflow-auto">
+<code v-pre>
+// Example request payload:
+{
+  "vueCode": "&lt;div class="font-bold"&gt;Hello {{ name }}!&lt;/div&gt;",
+  "data": { "name": "C1ach0" },
+  "width": 800,
+  "height": 600,
+  "format": "png",
+  "tailwindcss": true
+}
+</code>
+    </pre>
+            </section>
+
+            <section class="max-w-screen-lg mx-auto px-6 py-10 bg-white rounded-xl shadow-lg mb-12">
+                <h2 class="text-3xl font-bold mb-6 text-gray-900">API Usage</h2>
+                <p class="mb-4 text-gray-700">
+                    Send a POST request to <code class="bg-gray-200 px-1 rounded">/image/generate</code> with a JSON
+                    body including:
+                </p>
+                <ul class="list-disc pl-6 mb-4 text-gray-700">
+                    <li><strong>vueCode</strong> — The Vue.js template HTML string.</li>
+                    <li><strong>data</strong> — An object with reactive data for the template.</li>
+                    <li><strong>width</strong> and <strong>height</strong> — Image dimensions in pixels.</li>
+                    <li><strong>format</strong> — Image format, either <code>png</code> or <code>jpeg</code>.</li>
+                    <li><strong>tailwindcss</strong> — (optional) Enable TailwindCSS styles in the image.</li>
+                    <li><strong>css</strong> — (optional) Add custom CSS styles as a string.</li>
+                </ul>
+                <p class="mb-4 text-gray-700">
+                    The response will be the image binary data ready to save or display.
+                </p>
+            </section>
+
+            <section class="max-w-screen-lg mx-auto px-6 py-10 bg-white rounded-xl shadow-lg mb-12">
+                <h2 class="text-3xl font-bold mb-6 text-gray-900">Example</h2>
+                <p class="mb-4 text-gray-700">
+                    Here’s a simple example of the Vue template and data you can send:
+                </p>
+                <pre class="bg-gray-100 p-4 rounded text-sm overflow-auto">
+<code v-pre>
+const fs = require('fs');
+const path = require('path');
+const fetch = require('node-fetch');
+
+const imageHtml = fs.readFileSync(path.join(__dirname, 'image.html'), 'utf-8');
+
+fetch('http://localhost:3000/image/generate', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        vueCode: imageHtml,
+        tailwindcss: true,
+        width: 800,
+        height: 400,
+        format: 'png'
+    })
+}).then(async response => {
+    if (!response.ok) {
+        throw new Error(`HTTP error status: ${response.status}`);
+    }
+    const buffer = await response.arrayBuffer();
+    fs.writeFileSync(path.join(__dirname, 'output.png'), Buffer.from(buffer));
+    console.log('Image successfully saved as output.png');
+})
+.catch(err => {
+    console.error(err);
+});
+
+</code>
+    </pre>
+            </section>
+
+            <section class="max-w-screen-lg mx-auto px-6 py-10 bg-white rounded-xl shadow-lg mb-20">
+                <h2 class="text-3xl font-bold mb-6 text-gray-900">Tips & Tricks</h2>
+                <ul class="list-disc pl-6 text-gray-700">
+                    <li>Use <code>tailwindcss: true</code> to easily style with Tailwind utility classes!</li>
+                    <li>You can include custom CSS via the <code>css</code> property to tweak styles.</li>
+                    <li>Make sure your <code>vueCode</code> is valid Vue template HTML (no full single file components,
+                        just the template string).</li>
+                    <li>Keep your <code>width</code> and <code>height</code> proportional for best quality images.</li>
+                    <li>
+                        You can use all the standard Vue directives like
+                        <code class="bg-gray-100 px-1 py-0.5 rounded text-pink-600 font-mono text-xs">v-for</code>,
+                        <code class="bg-gray-100 px-1 py-0.5 rounded text-pink-600 font-mono text-xs">v-if</code>,
+                        <code class="bg-gray-100 px-1 py-0.5 rounded text-pink-600 font-mono text-xs">v-else</code>,
+                        <code class="bg-gray-100 px-1 py-0.5 rounded text-pink-600 font-mono text-xs">:class</code>
+                        and many more directly in your templates
+                    </li>
+                    <li>Feel free to experiment with complex templates and reactive data to generate dynamic images!
+                    </li>
+                </ul>
+            </section>
+        </Layout>
+
+    </div>
+    <script type="module">
+        const app = Vue.createApp({
+            components: {
+                Layout: Vue.defineAsyncComponent(async () => {
+                    const res = await fetch("./components/Layout.html");
+                    const template = await res.text();
+                    return { template };
+                })
+            },
+            data() {
+                return {
+
+                }
+            }
+        });
+        app.mount("#app");
+    </script>
+</body>
+
+</html>

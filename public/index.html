@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Image Generator Using Vue</title>
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Image Generator Using Vue" />
+    <meta name="description" content="Generate beautiful images from Vue.js HTML templates instantly." />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://vue-png.vercel.app/" />
+    <meta property="og:title" content="Image Generator Using Vue" />
+    <meta property="og:description" content="Generate beautiful images from Vue.js HTML templates instantly." />
+    <meta property="og:image" content="https://vue-png.vercel.app/assets/example.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://vue-png.vercel.app/" />
+    <meta property="twitter:title" content="Image Generator Using Vue" />
+    <meta property="twitter:description" content="Generate beautiful images from Vue.js HTML templates instantly." />
+    <meta property="twitter:image" content="https://vue-png.vercel.app/assets/example.png" />
+
+    <link rel="icon" href="/logo.svg">
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <Layout>
+            <header class="max-w-screen-lg mx-auto px-4 py-20 text-center">
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
+                    Easily Create Beautiful Images Using <span class="text-green-600">Vue.js</span>
+                </h1>
+                <p class="text-lg text-gray-600 mb-8">
+                    Generate stunning images from your HTML templates in seconds
+                </p>
+                <a href="/docs"
+                    class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-xl transition shadow-lg">
+                    View Documentation 📚
+                </a>
+            </header>
+            <section class="bg-white py-16 px-4">
+                <div class="max-w-screen-lg mx-auto grid md:grid-cols-3 gap-8 text-center">
+                    <div class="p-6 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition">
+                        <h3 class="text-xl font-semibold mb-2">🖼️ Custom HTML</h3>
+                        <p class="text-gray-600">Use any HTML/CSS to generate flexible visuals.</p>
+                    </div>
+                    <div class="p-6 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition">
+                        <h3 class="text-xl font-semibold mb-2">⚡ Fast Rendering</h3>
+                        <p class="text-gray-600">Powered by headless browsers for quick generation.</p>
+                    </div>
+                    <div class="p-6 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition">
+                        <h3 class="text-xl font-semibold mb-2">🎨 TailwindCSS Ready</h3>
+                        <p class="text-gray-600">Style your components easily with Tailwind 💅</p>
+                    </div>
+                </div>
+            </section>
+            <Editor :files="files" :active-file="activeFile" @update:active-file="activeFile = $event" />
+        </Layout>
+    </div>
+    <script type="module">
+        const app = Vue.createApp({
+            components: {
+                Layout: Vue.defineAsyncComponent(async () => {
+                    const res = await fetch("./components/Layout.html");
+                    const template = await res.text();
+                    return { template };
+                }),
+                Editor: {
+                    template: await(await fetch("./components/Editor.html")).text(),
+                    mounted() {
+                        this.renderEditor();
+                    },
+                    watch: {
+                        activeFile() {
+                            this.renderEditor();
+                        }
+                    },
+                    methods: {
+                        renderEditor() {
+                            const tabs = this.$el.querySelector('#editor-tabs');
+                            const content = this.$el.querySelector('#editor-content');
+
+                            // Nettoie
+                            tabs.innerHTML = '';
+
+                            // Crée les tabs
+                            this.files.forEach(file => {
+                                const btn = document.createElement('button');
+                                btn.innerText = file.name;
+                                btn.className = 'px-3 py-1 rounded-t font-medium transition ' +
+                                    (file.name !== this.activeFile ? 'bg-black text-white' : 'bg-white text-black hover:bg-white/70');
+                                btn.onclick = () => this.$emit('update:activeFile', file.name);
+                                tabs.appendChild(btn);
+                            });
+
+                            // Affiche le contenu
+                            const file = this.files.find(f => f.name === this.activeFile);
+                            content.textContent = file ? file.content : '';
+                        }
+                    },
+                    props: ['files', 'activeFile']
+                }
+            },
+            data() {
+                return {
+                    activeFile: 'image.html',
+                    files: [
+                        {
+                            name: 'image.html',
+                            content: `
+<div class="h-screen bg-linear-to-t from-white to-green-500">
+    <div class="h-screen flex flex-col items-center justify-center text-center">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
+            Easily Create Beautiful Images Using <span class="text-green-600">Vue.js</span>
+        </h1>
+        <p class="text-lg text-gray-600 mb-8">
+            Generate stunning images from your HTML templates in seconds
+        </p>
+    </div>
+</div>`
+                        },
+                        {
+                            name: 'index.js',
+                            content: `
+const fs = require('fs');
+const path = require('path');
+const fetch = require('node-fetch');
+
+const imageHtml = fs.readFileSync(path.join(__dirname, 'image.html'), 'utf-8');
+
+fetch('http://localhost:3000/image/generate', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        vueCode: imageHtml,
+        tailwindcss: true,
+        width: 800,
+        height: 400,
+        format: 'png'
+    })
+}).then(async response => {
+    if (!response.ok) {
+        throw new Error(\`HTTP error status: \${response.status}\`);
+    }
+    const buffer = await response.arrayBuffer();
+    fs.writeFileSync(path.join(__dirname, 'output.png'), Buffer.from(buffer));
+    console.log('Image successfully saved as output.png');
+})
+.catch(err => {
+    console.error(err);
+});
+
+`
+                        }
+                    ]
+                }
+            }
+        });
+        app.mount("#app");
+    </script>
+</body>
+
+</html>
