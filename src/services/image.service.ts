@@ -32,8 +32,8 @@ export class ImageService {
       return Buffer.isBuffer(screenshot) ? screenshot : Buffer.from(screenshot);
     } catch (err) {
       throw new HttpException(
-        `Rendering timeout: your image took too long to generate (over 10 seconds). Try reducing content or image size!"`,
-        HttpStatus.BAD_REQUEST
+        JSON.stringify(err),
+        HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
   }
