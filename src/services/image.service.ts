@@ -62,7 +62,7 @@ const htmlContent = `
       await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
 
       const screenshot = await page.screenshot({ type: format });
-      await browser.close();
+      await page.close() // browser.clost();
 
       return Buffer.isBuffer(screenshot) ? screenshot : Buffer.from(screenshot);
   }

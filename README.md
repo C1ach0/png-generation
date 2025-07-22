@@ -8,6 +8,10 @@ Generate images (PNG or JPEG) directly from Vue.js components using Puppeteer.
 
 > Inspired by the excellent [Nuxt OG Image](https://github.com/nuxt-modules/og-image), but framework-agnostic and focused on raw Vue rendering.
 
+## Rate Limit Notice
+This API is rate-limited to 1 request per 2 seconds per IP to ensure fair usage and prevent abuse.
+If you need higher throughput, consider self-hosting the service!
+
 ## Generation URL
 ```
 https://vuepng.maxence-bessi.com/image/generate

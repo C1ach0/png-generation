@@ -22,6 +22,7 @@
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/throttler": "^6.4.0",
     "@sparticuz/chromium-min": "^138.0.1",
     "puppeteer": "^24.14.0",
     "puppeteer-core": "^24.14.0",

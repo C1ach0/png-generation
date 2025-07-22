@@ -1,13 +1,11 @@
 import { Controller, Get, Res } from '@nestjs/common';
 import { Response } from 'express';
 import * as path from 'path';
-import { AppService } from '../services/app.service';
+import { SkipThrottle } from '@nestjs/throttler';
 
+@SkipThrottle()
 @Controller()
 export class AppController {
-  constructor(
-    private readonly appService: AppService
-  ) {}
 
   @Get()
   getIndex(@Res() res: Response) {
