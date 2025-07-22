@@ -1,42 +1,66 @@
 * {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
-        Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
-.hero {
-  height: 100vh;
-  background: linear-gradient(to top, white, #22c55e); /* green-500 */
+html,
+body {
+  height: 100%;
+  font-family: system-ui, sans-serif;
+  background: linear-gradient(to bottom, #bbf7d0, #bfdbfe, #fed7aa);
+  /* from-green-200 via-blue-200 to-orange-200 */
 }
 
-.hero-content {
+.container {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   text-align: center;
+  padding: 0 1rem;
 }
 
-.title {
-  font-size: 2.25rem; /* text-4xl */
-  font-weight: 800;   /* font-extrabold */
-  color: #1f2937;     /* text-gray-900 */
-  line-height: 1.25;  /* leading-tight */
-  margin-bottom: 1rem; /* mb-4 */
+h1 {
+  font-weight: 800;
+  font-size: 2.25rem;
+  /* text-4xl */
+  line-height: 1.25;
+  margin-bottom: 1rem;
+  color: #111827;
+  /* text-gray-900 */
 }
 
 @media (min-width: 640px) {
-  .title {
-    font-size: 3rem; /* sm:text-5xl */
+  h1 {
+    font-size: 3rem;
+    /* text-5xl */
   }
 }
 
-.vue-text {
-  color: #16a34a; /* text-green-600 */
+p {
+  font-size: 1.125rem;
+  /* text-lg */
+  color: #4b5563;
+  /* text-gray-600 */
+  margin-bottom: 2rem;
 }
 
-.subtitle {
-  font-size: 1.125rem; /* text-lg */
-  color: #4b5563;      /* text-gray-600 */
-  margin-bottom: 2rem; /* mb-8 */
+.framework-list span {
+  font-weight: 700;
+}
+
+.vue {
+  color: #22c55e;
+  /* text-green-500 */
+}
+
+.html {
+  color: #ef4444;
+  /* text-red-500 */
+}
+
+.react {
+  color: #3b82f6;
+  /* text-blue-500 */
 }

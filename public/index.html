@@ -5,24 +5,24 @@
     <meta charset="UTF-8" />
     <title>Image Generator Using Vue</title>
     <!-- Primary Meta Tags -->
-    <meta name="title" content="Image Generator Using Vue" />
-    <meta name="description" content="Generate beautiful images from Vue.js HTML templates instantly." />
+    <meta name="title" content="Image Generator Using HTML Template" />
+    <meta name="description" content="Easily generate beautiful images from your Vue.js, React or HTML templates. Perfect for social sharing and instant visuals!" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://vuepng.maxence-bessi.com/" />
-    <meta property="og:title" content="Image Generator Using Vue" />
-    <meta property="og:description" content="Generate beautiful images from Vue.js HTML templates instantly." />
-    <meta property="og:image" content="https://vuepng.maxence-bessi.com/assets/example.png" />
+    <meta property="og:url" content="https://htmlpng.maxence-bessi.com/" />
+    <meta property="og:title" content="Image Generator Using HTML Template" />
+    <meta property="og:description" content="Easily generate beautiful images from your Vue.js, React or HTML templates. Perfect for social sharing and instant visuals!" />
+    <meta property="og:image" content="https://htmlpng.maxence-bessi.com/assets/example.png" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://vuepng.maxence-bessi.com/" />
-    <meta property="twitter:title" content="Image Generator Using Vue" />
-    <meta property="twitter:description" content="Generate beautiful images from Vue.js HTML templates instantly." />
-    <meta property="twitter:image" content="https://vuepng.maxence-bessi.com/assets/example.png" />
+    <meta property="twitter:url" content="https://htmlpng.maxence-bessi.com/" />
+    <meta property="twitter:title" content="Image Generator Using HTML Template" />
+    <meta property="twitter:description" content="Easily generate beautiful images from your Vue.js, React or HTML templates. Perfect for social sharing and instant visuals!" />
+    <meta property="twitter:image" content="https://htmlpng.maxence-bessi.com/assets/example.png" />
 
-    <link rel="icon" href="/logo.svg">
+    <link rel="icon" href="/logo.png">
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -33,18 +33,21 @@
         <Layout>
             <header class="max-w-screen-lg mx-auto px-4 py-20 text-center">
                 <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
-                    Easily Create Beautiful Images Using <span class="text-green-600">Vue.js</span>
+                    Easily Create Beautiful Images Using 
+                    <span class="text-red-500">HTML</span>,
+                    <span class="text-green-500">Vue.js</span>,
+                    <span class="text-blue-500">React</span>
                 </h1>
                 <p class="text-lg text-gray-600 mb-8">
                     Generate stunning images from your HTML templates in seconds
                 </p>
                 <a href="/docs"
-                    class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-xl transition shadow-lg">
+                    class="inline-block bg-red-500 hover:bg-red-400 text-white font-semibold px-6 py-3 rounded-xl transition shadow-lg">
                     View Documentation 📚
                 </a>
             </header>
             <section class="bg-white py-16 px-4">
-                <div class="max-w-screen-lg mx-auto grid md:grid-cols-3 gap-8 text-center">
+                <div class="max-w-screen-lg mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 text-center">
                     <div class="p-6 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition">
                         <h3 class="text-xl font-semibold mb-2">🖼️ Custom HTML</h3>
                         <p class="text-gray-600">Use any HTML/CSS to generate flexible visuals.</p>
@@ -113,16 +116,24 @@
                         {
                             name: 'image.html',
                             content: `
-<div class="h-screen bg-linear-to-t from-white to-green-500">
-    <div class="h-screen flex flex-col items-center justify-center text-center">
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
-            Easily Create Beautiful Images Using <span class="text-green-600">Vue.js</span>
-        </h1>
-        <p class="text-lg text-gray-600 mb-8">
-            Generate stunning images from your HTML templates in seconds
-        </p>
-    </div>
-</div>`
+<div class="h-screen bg-gradient-to-b from-green-200 via-blue-200 to-orange-200">
+  <div class="h-screen flex flex-col items-center justify-center text-center">
+    <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
+      Easily Create Beautiful Images Using
+      <span v-for="(fm, i) in framework" :class="{
+        'text-green-500': fm.type == 'vue',
+        'text-red-500': fm.type == 'html',
+        'text-blue-500': fm.type == 'react'
+      }">
+        {{ fm.name }}{{ i !== framework.length - 1 ? ", " : "" }}
+      </span>
+    </h1>
+    <p class="text-lg text-gray-600 mb-8">
+      Generate stunning images from your HTML templates in seconds
+    </p>
+  </div>
+</div>
+`
                         },
                         {
                             name: 'index.js',
@@ -133,14 +144,22 @@ const fetch = require('node-fetch');
 
 const imageHtml = fs.readFileSync(path.join(__dirname, 'image.html'), 'utf-8');
 
-fetch('https://vuepng.maxence-bessi.com/image/generate', {
+fetch('http://localhost:3000/image/generate', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-        vueCode: imageHtml,
+        content: imageHtml,
         tailwindcss: true,
+        framework: 'vue',
+        data: {
+            framework: [
+                { name: "HTML", type: "html" },
+                { name: "Vue", type: "vue" },
+                { name: "React", type: "react" }
+            ]
+        },
         width: 800,
         height: 400,
         format: 'png'
@@ -156,7 +175,6 @@ fetch('https://vuepng.maxence-bessi.com/image/generate', {
 .catch(err => {
     console.error(err);
 });
-
 `
                         }
                     ]

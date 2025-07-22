@@ -16,7 +16,8 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"src/**/*.ts\" --fix",
     "test:css": "node test/css/index",
-    "test:tw": "node test/tailwindcss/index"
+    "test:vue": "node test/vue/index",
+    "test:react": "node test/react/index"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

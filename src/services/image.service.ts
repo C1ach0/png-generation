@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import chromium from "@sparticuz/chromium-min";
 import * as puppeteerCore from "puppeteer-core";
 import * as puppeteer from "puppeteer";
@@ -13,13 +13,75 @@ export class ImageService {
   private browser: puppeteer.Browser | puppeteerCore.Browser | null = null;
 
   public async generate(body: ImageBuilder): Promise<Buffer> {
-    const { vueCode, data, width, height, format = 'png', css = "", tailwindcss = false } = body;
-    const template = vueCode
+    const { width, height, format = 'png' } = body;
+
+    this.isCorrectSize(width, height);
+
+    const htmlContent = this.getTemplateByFramework(body);
+
+    try {
+      const browser = await this.getBrowser();
+      const page = await browser.newPage();
+      await page.setViewport({ width, height });
+
+      await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+
+      const screenshot = await page.screenshot({ type: format });
+      //await page.close() // browser.close();
+
+      return Buffer.isBuffer(screenshot) ? screenshot : Buffer.from(screenshot);
+    } catch (err) {
+      throw new HttpException(
+        `Rendering timeout: your image took too long to generate (over 10 seconds). Try reducing content or image size!"`,
+        HttpStatus.BAD_REQUEST
+      );
+    }
+  }
+
+  private isCorrectSize(width: number, height: number) {
+    const MAX_SIZE = 1000;
+
+    if (width > MAX_SIZE || height > MAX_SIZE) {
+      throw new HttpException(
+        `Image too big! Width and height must be under ${MAX_SIZE}px (got ${width}x${height})`,
+        HttpStatus.BAD_REQUEST
+      );
+    }
+  }
+
+
+  private async getBrowser(): Promise<puppeteer.Browser | puppeteerCore.Browser> {
+    if (this.browser) return this.browser;
+
+    const isProd = process.env.NEXT_PUBLIC_VERCEL_ENVIRONMENT === 'production';
+
+    if (isProd) {
+      this.browser = await puppeteerCore.launch({
+        args: chromium.args,
+        executablePath: await chromium.executablePath(remoteExecutablePath),
+        headless: true,
+      });
+    } else {
+      this.browser = await puppeteer.launch({
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        headless: false
+      });
+    }
+
+    return this.browser;
+  }
+
+
+  private getTemplateByFramework(body: ImageBuilder): string {
+    const { content, framework = null, data, css = "", tailwindcss = false } = body;
+    const template = content
       .replace(/\\/g, '\\\\')
       .replace(/`/g, '\\`')
       .replace(/\$\{/g, '\\${');
 
-const htmlContent = `
+    switch (framework) {
+      case "vue": {
+        return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,7 +103,7 @@ const htmlContent = `
   
   <script>
     const App = {
-      template: '${template}',
+      template: \`${template}\`,
       data() {
         return ${JSON.stringify(data ?? {})};
       }
@@ -55,37 +117,46 @@ const htmlContent = `
 </body>
 </html>
 `.replace(/(\r\n|\n|\r|\t)/gm, '').replace(/\s{2,}/g, ' ').trim();
-      const browser = await this.getBrowser();
-      const page = await browser.newPage();
-      await page.setViewport({ width, height });
-
-      await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
-
-      const screenshot = await page.screenshot({ type: format });
-      await page.close() // browser.clost();
-
-      return Buffer.isBuffer(screenshot) ? screenshot : Buffer.from(screenshot);
-  }
-
-
-  private async getBrowser(): Promise<puppeteer.Browser | puppeteerCore.Browser> {
-    if (this.browser) return this.browser;
-
-    const isProd = process.env.NEXT_PUBLIC_VERCEL_ENVIRONMENT === 'production';
-
-    if (isProd) {
-      this.browser = await puppeteerCore.launch({
-        args: chromium.args,
-        executablePath: await chromium.executablePath(remoteExecutablePath),
-        headless: true,
-      });
-    } else {
-      this.browser = await puppeteer.launch({
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        headless: true
-      });
+      }
+      case "react": {
+        return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Image Generator</title>
+  ${tailwindcss ? '<script src="https://cdn.tailwindcss.com"></script>' : ''}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
+    ${css}
+  </style>
+  <!-- Babel for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const App = () => {
+      const props = ${JSON.stringify(data ?? {})};
+      return (${template});
+    };
 
-    return this.browser;
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    setTimeout(() => window.isReady = true, 100);
+  </script>
+</body>
+</html>
+`.replace(/(\r\n|\n|\r|\t)/gm, '').replace(/\s{2,}/g, ' ').trim();
+      }
+      default: {
+        return template.replace(/(\r\n|\n|\r|\t)/gm, '').replace(/\s{2,}/g, ' ').trim();
+      }
+    }
   }
 }

@@ -1,6 +1,7 @@
 
 export interface ImageBuilder {
-    vueCode: string;
+    content: string;
+    framework?: 'vue'|'react'|'html';
     css?: string;
     tailwindcss?: boolean;
     data?: Record<string, any>;

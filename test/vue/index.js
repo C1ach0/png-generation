@@ -3,7 +3,6 @@ const path = require('path');
 const fetch = require('node-fetch'); // Si tu es dans Node.js sans global fetch
 
 const imageHtml = fs.readFileSync(path.join(__dirname, 'image.html'), 'utf-8');
-const imageCss = fs.readFileSync(path.join(__dirname, 'image.css'), 'utf-8');
 
 fetch('http://localhost:3000/image/generate', {
     method: 'POST',
@@ -12,8 +11,15 @@ fetch('http://localhost:3000/image/generate', {
     },
     body: JSON.stringify({
         content: imageHtml,
+        tailwindcss: true,
         framework: 'vue',
-        css: imageCss,
+        data: {
+            framework: [
+                { name: "HTML", type: "html" },
+                { name: "Vue", type: "vue" },
+                { name: "React", type: "react" }
+            ]
+        },
         width: 800,
         height: 400,
         format: 'png'

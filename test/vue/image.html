@@ -1,0 +1,17 @@
+<div class="h-screen bg-gradient-to-b from-green-200 via-blue-200 to-orange-200">
+  <div class="h-screen flex flex-col items-center justify-center text-center">
+    <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
+      Easily Create Beautiful Images Using
+      <span v-for="(fm, i) in framework" :class="{
+        'text-green-500': fm.type == 'vue',
+        'text-red-500': fm.type == 'html',
+        'text-blue-500': fm.type == 'react'
+      }">
+        {{ fm.name }}{{ i !== framework.length - 1 ? ", " : "" }}
+      </span>
+    </h1>
+    <p class="text-lg text-gray-600 mb-8">
+      Generate stunning images from your HTML templates in seconds
+    </p>
+  </div>
+</div>

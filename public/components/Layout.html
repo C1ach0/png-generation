@@ -1,10 +1,10 @@
 <div class="min-h-screen flex flex-col bg-gray-50 text-gray-800 font-sans">
     <nav class="bg-white shadow-md py-4 px-6 flex justify-between items-center">
         <div class="max-w-screen-lg mx-auto flex items-center justify-between w-full">
-            <h1 class="text-xl font-bold text-green-500">VuePNG</h1>
-            <ul class="flex gap-4 text-sm font-medium">
-                <li><a href="/" class="hover:text-green-500">Accueil</a></li>
-                <li><a href="/docs" class="hover:text-green-500">Documentation</a></li>
+            <h1 class="text-xl font-bold text-red-500 hover:text-red-600"><a href="/">PNG Generation</a></h1>
+            <ul class="flex gap-4 text-md font-medium">
+                <li><a href="/" class="hover:text-red-600">Accueil</a></li>
+                <li><a href="/docs" class="hover:text-red-600">Documentation</a></li>
             </ul>
         </div>
     </nav>
@@ -12,7 +12,7 @@
         <slot />
     </main>
     <footer class="bg-white shadow-inner py-3 px-6 text-sm text-gray-500 flex items-center justify-between font-bold">
-        <p>© {{ (new Date()).getFullYear() }} VuePNG</p>
-        <a href="https://github.com/C1ach0/VuePNG" target="_blank" class="p-2 bg-green-200 hover:bg-green-300 rounded"><img src="/assets/github-icon.png" class="h-5"></a>
+        <p>© {{ (new Date()).getFullYear() }} HTML PNG</p>
+        <a href="https://github.com/C1ach0/HTMLPNG" target="_blank" class="p-2 bg-red-200 hover:bg-red-300 rounded"><img src="/assets/github-icon.png" class="h-5"></a>
     </footer>
 </div>

@@ -5,24 +5,27 @@
     <meta charset="UTF-8" />
     <title>Image Generator Using Vue</title>
     <!-- Primary Meta Tags -->
-    <meta name="title" content="Image Generator Using Vue" />
-    <meta name="description" content="Generate beautiful images from Vue.js HTML templates instantly." />
+    <meta name="title" content="Image Generator Using HTML Template" />
+    <meta name="description"
+        content="Easily generate beautiful images from your Vue.js, React or HTML templates. Perfect for social sharing and instant visuals!" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://vuepng.maxence-bessi.com/" />
-    <meta property="og:title" content="Image Generator Using Vue" />
-    <meta property="og:description" content="Generate beautiful images from Vue.js HTML templates instantly." />
-    <meta property="og:image" content="https://vuepng.maxence-bessi.com/assets/example.png" />
+    <meta property="og:url" content="https://htmlpng.maxence-bessi.com/" />
+    <meta property="og:title" content="Image Generator Using HTML Template" />
+    <meta property="og:description"
+        content="Easily generate beautiful images from your Vue.js, React or HTML templates. Perfect for social sharing and instant visuals!" />
+    <meta property="og:image" content="https://htmlpng.maxence-bessi.com/assets/example.png" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://vuepng.maxence-bessi.com/" />
-    <meta property="twitter:title" content="Image Generator Using Vue" />
-    <meta property="twitter:description" content="Generate beautiful images from Vue.js HTML templates instantly." />
-    <meta property="twitter:image" content="https://vuepng.maxence-bessi.com/assets/example.png" />
+    <meta property="twitter:url" content="https://htmlpng.maxence-bessi.com/" />
+    <meta property="twitter:title" content="Image Generator Using HTML Template" />
+    <meta property="twitter:description"
+        content="Easily generate beautiful images from your Vue.js, React or HTML templates. Perfect for social sharing and instant visuals!" />
+    <meta property="twitter:image" content="https://htmlpng.maxence-bessi.com/assets/example.png" />
 
-    <link rel="icon" href="/logo.svg">
+    <link rel="icon" href="/logo.png">
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -33,7 +36,10 @@
         <Layout>
             <header class="max-w-screen-lg mx-auto px-4 py-20 text-center">
                 <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
-                    Easily Create Beautiful Images Using <span class="text-green-600">Vue.js</span>
+                    Easily Create Beautiful Images Using
+                    <span class="text-red-500">HTML</span>,
+                    <span class="text-green-500">Vue.js</span>,
+                    <span class="text-blue-500">React</span>
                 </h1>
                 <p class="text-lg text-gray-600 mb-12">
                     Generate stunning images from your HTML templates in seconds — perfect for social cards, previews,
@@ -42,66 +48,92 @@
             </header>
 
             <section class="max-w-screen-lg mx-auto px-6 py-10 bg-white rounded-xl shadow-lg mb-12">
-                <h2 class="text-3xl font-bold mb-6 text-gray-900">Getting Started</h2>
-                <p class="mb-4 text-gray-700">
-                    This project lets you create PNG or JPEG images from Vue.js templates. You can send your Vue
-                    template code, styles, and data, and get back a beautifully rendered image.
+                <h2 class="text-3xl font-bold mb-6 text-gray-900">Getting Started 💫</h2>
+                <p class="mb-4 text-gray-700"> This API allows you to generate PNG or JPEG images from
+                    <strong>HTML</strong>, <strong>Vue.js</strong>, or <strong>React</strong> templates. You send your
+                    template, styles, and data — and receive a beautifully rendered image, meow~ 🖼✨
                 </p>
                 <pre class="bg-gray-100 p-4 rounded text-sm overflow-auto">
-<code v-pre>
-// Example request payload:
-{
-  "vueCode": "&lt;div class="font-bold"&gt;Hello {{ name }}!&lt;/div&gt;",
-  "data": { "name": "C1ach0" },
-  "width": 800,
-  "height": 600,
-  "format": "png",
-  "tailwindcss": true
-}
-</code>
-    </pre>
+<code v-pre>// Example request payload: 
+{ 
+    "content": string, 
+    "width": 800, 
+    "height": 600, 
+    "format": "png"|"jpeg", 
+    "framework"?: "html"|"vue"|"react",
+    "data"?: Record< string, any >, 
+    "tailwindcss"?: boolean
+    "css"?: string,
+}</code>
+                </pre>
             </section>
-
             <section class="max-w-screen-lg mx-auto px-6 py-10 bg-white rounded-xl shadow-lg mb-12">
-                <h2 class="text-3xl font-bold mb-6 text-gray-900">API Usage</h2>
-                <p class="mb-4 text-gray-700">
-                    Send a POST request to <code class="bg-gray-200 px-1 rounded">/image/generate</code> with a JSON
-                    body including:
-                </p>
+                <h2 class="text-3xl font-bold mb-6 text-gray-900">API Usage 🚀</h2>
+                <p class="mb-4 text-gray-700"> Send a POST request to <code
+                        class="bg-gray-200 px-1 rounded">/image/generate</code> with a JSON body including: </p>
                 <ul class="list-disc pl-6 mb-4 text-gray-700">
-                    <li><strong>vueCode</strong> — The Vue.js template HTML string.</li>
-                    <li><strong>data</strong> — An object with reactive data for the template.</li>
-                    <li><strong>width</strong> and <strong>height</strong> — Image dimensions in pixels.</li>
+                    <li><strong>framework</strong> — Either <code>"html"</code>, <code>"vue"</code> or
+                        <code>"react"</code>.
+                    </li>
+                    <li><strong>content</strong> — The template HTML string to render.</li>
+                    <li><strong>data</strong> — (Vue/React only) An object with data for binding.</li>
+                    <li><strong>width</strong> and <strong>height</strong> — Image dimensions in pixels (max: 1000px).
+                    </li>
                     <li><strong>format</strong> — Image format, either <code>png</code> or <code>jpeg</code>.</li>
-                    <li><strong>tailwindcss</strong> — (optional) Enable TailwindCSS styles in the image.</li>
-                    <li><strong>css</strong> — (optional) Add custom CSS styles as a string.</li>
+                    <li><strong>tailwindcss</strong> — (optional) Enable TailwindCSS in your image.</li>
+                    <li><strong>css</strong> — (optional) Custom CSS styles as a string.</li>
                 </ul>
-                <p class="mb-4 text-gray-700">
-                    The response will be the image binary data ready to save or display.
-                </p>
+                <p class="mb-4 text-gray-700"> The response will be the image binary data, ready to save or display
+                    meow~ 💾 </p>
             </section>
-
             <section class="max-w-screen-lg mx-auto px-6 py-10 bg-white rounded-xl shadow-lg mb-12">
-                <h2 class="text-3xl font-bold mb-6 text-gray-900">Example</h2>
-                <p class="mb-4 text-gray-700">
-                    Here’s a simple example of the Vue template and data you can send:
-                </p>
-                <pre class="bg-gray-100 p-4 rounded text-sm overflow-auto">
-<code v-pre>
-const fs = require('fs');
-const path = require('path');
+                <h2 class="text-3xl font-bold mb-6 text-gray-900">Example 🍓</h2>
+                <p class="mb-4 text-gray-700"> Here's an example of a request using <strong>Vue.js</strong> as the
+                    framework: </p>
+<pre class="bg-gray-100 p-4 rounded text-sm overflow-auto">
+<code v-pre>&lt;div class="h-screen bg-gradient-to-b from-green-200 via-blue-200 to-orange-200"&gt;
+  &lt;div class="h-screen flex flex-col items-center justify-center text-center"&gt;
+    &lt;h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight mb-4"&gt;
+      Easily Create Beautiful Images Using
+      &lt;span v-for="(fm, i) in framework" :class="{
+        'text-green-500': fm.type == 'vue',
+        'text-red-500': fm.type == 'html',
+        'text-blue-500': fm.type == 'react'
+      }"&gt;
+        {{ fm.name }}{{ i !== framework.length - 1 ? ", " : "" }}
+      &lt;/span&gt;
+    &lt;/h1&gt;
+    &lt;p class="text-lg text-gray-600 mb-8"&gt;
+      Generate stunning images from your HTML templates in seconds
+    &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code>
+</pre>
+<hr/>
+<pre class="bg-gray-100 p-4 rounded text-sm overflow-auto"> 
+<code v-pre>const fs = require('fs'); 
+const path = require('path'); 
 const fetch = require('node-fetch');
 
 const imageHtml = fs.readFileSync(path.join(__dirname, 'image.html'), 'utf-8');
 
-fetch('https://vuepng.maxence-bessi.com/image/generate', {
+fetch('http://localhost:3000/image/generate', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-        vueCode: imageHtml,
+        content: imageHtml,
         tailwindcss: true,
+        framework: 'vue',
+        data: {
+            framework: [
+                { name: "HTML", type: "html" },
+                { name: "Vue", type: "vue" },
+                { name: "React", type: "react" }
+            ]
+        },
         width: 800,
         height: 400,
         format: 'png'
@@ -117,29 +149,24 @@ fetch('https://vuepng.maxence-bessi.com/image/generate', {
 .catch(err => {
     console.error(err);
 });
-
 </code>
-    </pre>
+</pre>
             </section>
-
             <section class="max-w-screen-lg mx-auto px-6 py-10 bg-white rounded-xl shadow-lg mb-20">
-                <h2 class="text-3xl font-bold mb-6 text-gray-900">Tips & Tricks</h2>
+                <h2 class="text-3xl font-bold mb-6 text-gray-900">Tips & Tricks 🎀</h2>
                 <ul class="list-disc pl-6 text-gray-700">
-                    <li>Use <code>tailwindcss: true</code> to easily style with Tailwind utility classes!</li>
-                    <li>You can include custom CSS via the <code>css</code> property to tweak styles.</li>
-                    <li>Make sure your <code>vueCode</code> is valid Vue template HTML (no full single file components,
-                        just the template string).</li>
-                    <li>Keep your <code>width</code> and <code>height</code> proportional for best quality images.</li>
-                    <li>
-                        You can use all the standard Vue directives like
-                        <code class="bg-gray-100 px-1 py-0.5 rounded text-pink-600 font-mono text-xs">v-for</code>,
-                        <code class="bg-gray-100 px-1 py-0.5 rounded text-pink-600 font-mono text-xs">v-if</code>,
-                        <code class="bg-gray-100 px-1 py-0.5 rounded text-pink-600 font-mono text-xs">v-else</code>,
-                        <code class="bg-gray-100 px-1 py-0.5 rounded text-pink-600 font-mono text-xs">:class</code>
-                        and many more directly in your templates
+                    <li>Use <code>tailwindcss: true</code> for fast and elegant styling ✨</li>
+                    <li>Customize visuals with <code>css</code> for full control 💅</li>
+                    <li>For <code>vue</code> and <code>react</code>, you can bind variables from the <code>data</code>
+                        object</li>
+                    <li><code>html</code> mode ignores the <code>data</code> prop, it's pure markup 🌸</li>
+                    <li>Supported Vue directives include: <code
+                            class="bg-gray-100 px-1 py-0.5 rounded text-pink-600 font-mono text-xs">v-if</code>, <code
+                            class="bg-gray-100 px-1 py-0.5 rounded text-pink-600 font-mono text-xs">v-for</code>, <code
+                            class="bg-gray-100 px-1 py-0.5 rounded text-pink-600 font-mono text-xs">:class</code> etc.
                     </li>
-                    <li>Feel free to experiment with complex templates and reactive data to generate dynamic images!
-                    </li>
+                    <li>React templates support JSX syntax and expressions via <code>{data.variable}</code></li>
+                    <li>Recommended to keep your image <code>width</code> and <code>height</code> proportional 💖</li>
                 </ul>
             </section>
         </Layout>
