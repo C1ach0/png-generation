@@ -10,17 +10,17 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://vue-png.vercel.app/" />
+    <meta property="og:url" content="https://vuepng.maxence-bessi.com/" />
     <meta property="og:title" content="Image Generator Using Vue" />
     <meta property="og:description" content="Generate beautiful images from Vue.js HTML templates instantly." />
-    <meta property="og:image" content="https://vue-png.vercel.app/assets/example.png" />
+    <meta property="og:image" content="https://vuepng.maxence-bessi.com/assets/example.png" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://vue-png.vercel.app/" />
+    <meta property="twitter:url" content="https://vuepng.maxence-bessi.com/" />
     <meta property="twitter:title" content="Image Generator Using Vue" />
     <meta property="twitter:description" content="Generate beautiful images from Vue.js HTML templates instantly." />
-    <meta property="twitter:image" content="https://vue-png.vercel.app/assets/example.png" />
+    <meta property="twitter:image" content="https://vuepng.maxence-bessi.com/assets/example.png" />
 
     <link rel="icon" href="/logo.svg">
 
@@ -133,7 +133,7 @@ const fetch = require('node-fetch');
 
 const imageHtml = fs.readFileSync(path.join(__dirname, 'image.html'), 'utf-8');
 
-fetch('http://localhost:3000/image/generate', {
+fetch('https://vuepng.maxence-bessi.com/image/generate', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
