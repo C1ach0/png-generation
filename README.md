@@ -1,10 +1,10 @@
-# VuePNG
+# PNG Generation
 
-Generate images (PNG or JPEG) directly from Vue.js components using Puppeteer.
+Generate images (PNG or JPEG) directly from HTML, Vue or React components using Puppeteer.
 
 ## Description
 
-**VuePNG** is a lightweight service that renders Vue 3 templates into static images. It's useful for generating Open Graph images, social previews, or any custom visuals from code. The rendered content can be styled using Tailwind CSS, and dynamic data can be passed through the Vue instance.
+**PNG Generation** is a lightweight service that renders HTML, Vue or React templates into static images. It's useful for generating Open Graph images, social previews, or any custom visuals from code. The rendered content can be styled using Tailwind CSS, and dynamic data can be passed through the Vue instance.
 
 > Inspired by the excellent [Nuxt OG Image](https://github.com/nuxt-modules/og-image), but framework-agnostic and focused on raw Vue rendering.
 
@@ -14,7 +14,7 @@ If you need higher throughput, consider self-hosting the service!
 
 ## Generation URL
 ```
-https://vuepng.maxence-bessi.com/image/generate
+https://png-generation.maxence-bessi.com/image/generate
 ```
 
 ## Example Data
@@ -39,7 +39,7 @@ const fetch = require('node-fetch');
 
 const imageHtml = fs.readFileSync(path.join(__dirname, 'image.html'), 'utf-8');
 
-fetch('https://vuepng.maxence-bessi.com/image/generate', {
+fetch('https://png-generation.maxence-bessi.com/image/generate', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
