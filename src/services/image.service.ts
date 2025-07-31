@@ -19,7 +19,7 @@ export class ImageService {
 
     const htmlContent = this.getTemplateByFramework(body);
 
-    try {
+    // try {
       const browser = await this.getBrowser();
       const page = await browser.newPage();
       await page.setViewport({ width, height });
@@ -27,15 +27,15 @@ export class ImageService {
       await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
 
       const screenshot = await page.screenshot({ type: format });
-      //await page.close() // browser.close();
+      await page.close() // browser.close();
 
       return Buffer.isBuffer(screenshot) ? screenshot : Buffer.from(screenshot);
-    } catch (err) {
-      throw new HttpException(
-        JSON.stringify(err),
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
-    }
+    // } catch (err) {
+    //   throw new HttpException(
+    //     JSON.stringify(err),
+    //     HttpStatus.INTERNAL_SERVER_ERROR
+    //   );
+    // }
   }
 
   private isCorrectSize(width: number, height: number) {
@@ -53,6 +53,7 @@ export class ImageService {
   private async getBrowser(): Promise<puppeteer.Browser | puppeteerCore.Browser> {
     if (this.browser) return this.browser;
 
+    // Prod mode doesn't work, dev mode work in prod mode 🧐
     const isProd = process.env.NEXT_PUBLIC_VERCEL_ENVIRONMENT === 'production';
 
     if (isProd) {
@@ -64,7 +65,7 @@ export class ImageService {
     } else {
       this.browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        headless: false
+        headless: true
       });
     }
 

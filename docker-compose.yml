@@ -1,10 +1,8 @@
 
 
 services:
-  vuepng:
+  png-generation:
     build: .
     ports: 
       - "3000:3000"
-    environment:
-      - NODE_ENV=production
     restart: unless-stopped
