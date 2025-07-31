@@ -39,7 +39,7 @@ export class ImageService {
   }
 
   private isCorrectSize(width: number, height: number) {
-    const MAX_SIZE = 1000;
+    const MAX_SIZE = 2000;
 
     if (width > MAX_SIZE || height > MAX_SIZE) {
       throw new HttpException(
