@@ -88,7 +88,6 @@ export class ImageService {
 <head>
   <meta charset="UTF-8" />
   <title>Image Generator</title>
-  ${tailwindcss ? '<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>' : ''}
   <style>
     * {
       margin: 0;
@@ -97,6 +96,7 @@ export class ImageService {
     }
     ${css}
   </style>
+  ${tailwindcss ? '<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>' : ''}
   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 </head>
 <body>
