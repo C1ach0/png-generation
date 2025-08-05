@@ -96,7 +96,7 @@ export class ImageService {
     }
     ${css}
   </style>
-  ${tailwindcss ? '<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>' : ''}
+  ${tailwindcss ? '<script src="https://cdn.tailwindcss.com"></script>' : ''}
   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 </head>
 <body>
